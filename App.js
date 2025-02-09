@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, Keyboard, Alert } from "react-native";
 import db from "./src/firebaseConnection";
-import { addDoc, doc, setDoc, collection, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
+import { addDoc, doc, collection,  onSnapshot, updateDoc } from 'firebase/firestore';
 import Users from "./src/users";
 
 export default function App() {
