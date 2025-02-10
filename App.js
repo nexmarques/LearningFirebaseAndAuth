@@ -8,69 +8,69 @@ export default function App() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [authUser, setAuthUser] = useState(null); 
+  const [authUser, setAuthUser] = useState(null);
 
-  useEffect( () =>{
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if(user){
+      if (user) {
         setAuthUser({
           email: user.email,
           uid: user.uid
-        })        
-        return;        
+        })
+        return;
       }
-      setAuthUser(false)      
+      setAuthUser(false)
     })
-  },[] )
+  }, [])
 
-  async function handleCreateUser(){
+  async function handleCreateUser() {
     const user = await createUserWithEmailAndPassword(auth, email, password)
-    
+
   }
 
-  async function handleLogin(){
+  async function handleLogin() {
     const user = await signInWithEmailAndPassword(auth, email, password)
-    .then( (user) => {
-      setAuthUser({
-        email: user.user.email,
-        uid: user.user.uid
+      .then((user) => {
+        setAuthUser({
+          email: user.user.email,
+          uid: user.user.uid
+        })
       })
-    })
-    .catch( (error) => {
-      if(error.code === 'auth/invalid-credential'){
-        Alert.alert('The password is invalid')
-      }
-      if(error.code === 'auth/missing-password'){
-        Alert.alert('You must enter a password')
-      }      
-    })
+      .catch((error) => {
+        if (error.code === 'auth/invalid-credential') {
+          Alert.alert('The password is invalid')
+        }
+        if (error.code === 'auth/missing-password') {
+          Alert.alert('You must enter a password')
+        }
+      })
   }
 
-  async function handleLogout(){
+  async function handleLogout() {
     await signOut(auth)
-     .then(() => {
+      .then(() => {
         setAuthUser(null)
       })
-     .catch((error) => {
+      .catch((error) => {
         Alert.alert('Error logging out', error)
       });
   }
 
-  if(authUser){
-    return(
+  if (authUser) {
+    return (
       <UserForm />
     )
   }
 
   return (
-    <View style={styles.container} >           
+    <View style={styles.container} >
 
       <Text style={styles.label} >Email:</Text>
       <TextInput
         style={styles.input}
         value={email}
         placeholder="Enter your email"
-        onChangeText={(email) => setEmail(email)} 
+        onChangeText={(email) => setEmail(email)}
       />
 
       <Text style={styles.label} >Password:</Text>
@@ -78,8 +78,8 @@ export default function App() {
         style={styles.input}
         value={password}
         placeholder="Enter your password"
-        onChangeText={(password) => setPassword(password)} 
-        secureTextEntry={false}      
+        onChangeText={(password) => setPassword(password)}
+        secureTextEntry={false}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleLogin} >
@@ -88,10 +88,6 @@ export default function App() {
 
       <TouchableOpacity style={styles.button} onPress={handleCreateUser} >
         <Text style={styles.buttonText} >Create account</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={handleLogout} >
-        <Text style={styles.buttonText} >Logout</Text>
       </TouchableOpacity>
 
     </View>
@@ -110,16 +106,16 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     width: '90%',
     borderRadius: 15,
-    marginBottom: 10,    
+    marginBottom: 10,
   },
-  label:{    
-      color: '#000',
-      fontSize: 16,      
-      alignSelf: 'flex-start',
-      marginLeft: 20,
-      marginBottom: 10 
+  label: {
+    color: '#000',
+    fontSize: 16,
+    alignSelf: 'flex-start',
+    marginLeft: 20,
+    marginBottom: 10
   },
-  button:{
+  button: {
     backgroundColor: '#4CAF50',
     width: '90%',
     borderRadius: 15,
